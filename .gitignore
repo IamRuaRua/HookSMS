@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+app/build/
+
+# Local SDK config
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Kotlin/Android caches
+.kotlin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+*.jks
+*.keystore
+keystore.properties
+base64.txt

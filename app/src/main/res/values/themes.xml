@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.HookSMS" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/hooksms_accent</item>
+        <item name="colorPrimaryVariant">@color/hooksms_ink</item>
+        <item name="colorSecondary">@color/hooksms_accent_soft</item>
+        <item name="android:windowBackground">@color/hooksms_page_bg</item>
+        <item name="android:statusBarColor">@color/hooksms_top_bar</item>
+        <item name="android:navigationBarColor">@color/hooksms_top_bar</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

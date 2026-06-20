@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HookSMS</string>
+    <string name="module_desc">SMS Hook模块 - 用于在接收短信时POST到QQ</string>
+    <string-array name="xposedscope">
+        <item>com.android.mms</item>
+    </string-array>
+</resources>

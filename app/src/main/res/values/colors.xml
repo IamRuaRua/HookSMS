@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hooksms_page_bg">#FFFFFF</color>
+    <color name="hooksms_top_bar">#FFFFFF</color>
+    <color name="hooksms_surface">#F8FCFF</color>
+    <color name="hooksms_ink">#20262A</color>
+    <color name="hooksms_muted">#455A64</color>
+    <color name="hooksms_accent">#1976D2</color>
+    <color name="hooksms_accent_soft">#BBDEFB</color>
+    <color name="hooksms_log_panel">#F8FCFF</color>
+</resources>
