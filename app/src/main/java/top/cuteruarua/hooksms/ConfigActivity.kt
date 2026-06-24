@@ -20,10 +20,9 @@ import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlin.concurrent.thread
 import top.cuteruarua.hooksms.config.SenderConfigStore
 import top.cuteruarua.hooksms.sender.ConfigFieldSpec
@@ -49,7 +48,7 @@ class ConfigActivity : Activity() {
     }
 
     private lateinit var configTypeSpinner: Spinner
-    private lateinit var viewPager: ViewPager2
+    private lateinit var viewPager: ViewPager
     private lateinit var configFieldsContainer: LinearLayout
     private lateinit var logText: TextView
     private lateinit var topBarTitle: TextView
@@ -115,12 +114,13 @@ class ConfigActivity : Activity() {
 
         mainLayout.addView(topBar)
 
-        viewPager = ViewPager2(this).apply {
+        viewPager = ViewPager(this).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 0,
                 1f
             )
+            id = View.generateViewId()
         }
         mainLayout.addView(viewPager)
 
@@ -140,20 +140,21 @@ class ConfigActivity : Activity() {
         setContentView(mainLayout)
 
         val pages = listOf(createConfigPage(), createLogPage())
-        viewPager.adapter = PageAdapter(pages)
+        viewPager.adapter = ViewPagerAdapter(pages)
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = if (position == 0) "Config" else "Logs"
-        }.attach()
+        tabLayout.setupWithViewPager(viewPager)
 
         updatePageTitle(0)
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
                 updatePageTitle(position)
                 if (position == 1) {
                     loadLogs()
                 }
             }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {}
         })
 
         setupConfigTypeListener()
@@ -497,7 +498,7 @@ class ConfigActivity : Activity() {
         }
 
         Toast.makeText(this, "Testing connection...", Toast.LENGTH_SHORT).show()
-        LogManager.log("========== Testing ${selectedType.displayName} ==========", this)
+        LogManager.log("Testing ${selectedType.displayName} ", this)
 
         thread {
             try {
@@ -566,20 +567,26 @@ class ConfigActivity : Activity() {
     }
 }
 
-private class PageAdapter(
+private class ViewPagerAdapter(
     private val pages: List<View>
-) : RecyclerView.Adapter<PageAdapter.PageViewHolder>() {
+) : PagerAdapter() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder {
-        return PageViewHolder(pages[viewType])
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        container.addView(pages[position])
+        return pages[position]
     }
 
-    override fun onBindViewHolder(holder: PageViewHolder, position: Int) {
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
     }
 
-    override fun getItemCount(): Int = pages.size
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object`
+    }
 
-    override fun getItemViewType(position: Int): Int = position
+    override fun getCount(): Int = pages.size
 
-    class PageViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    override fun getPageTitle(position: Int): CharSequence? {
+        return if (position == 0) "Config" else "Logs"
+    }
 }

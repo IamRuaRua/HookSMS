@@ -19,10 +19,10 @@ android {
 
     defaultConfig {
         applicationId = "top.cuteruarua.hooksms"
-        minSdk = 30
+        minSdk = 27
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,7 +62,7 @@ dependencies {
     compileOnly("de.robv.android.xposed:api:82:sources")
 
     implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager:viewpager:1.0.0")
     implementation("com.google.android.material:material:1.9.0")
 
     testImplementation("junit:junit:4.13.2")
